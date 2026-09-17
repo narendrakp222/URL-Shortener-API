@@ -396,26 +396,6 @@ git push -u origin main
 
 ---
 
-## 🎓 Resume & Architectural Deep Dive
-
-### *Explaining This Project in Technical Interviews*
-
-> **"Can you walk me through the architecture of your URL Shortener project?"**
-
-Here is how to answer like an experienced Backend Engineer:
-
-1. **Separation of Concerns (Clean Architecture)**:
-   - **Routers**: Focus purely on HTTP request routing, path parameter validation, and response serialization.
-   - **Services**: Encapsulate core domain logic (short code generation with fallback collision handling, async transaction processing).
-   - **Models**: ORM representations mapping clean database schemas with cascading foreign keys (`urls` -> `click_logs`).
-
-2. **Async I/O Efficiency**:
-   - Built using Python 3.13 and SQLAlchemy 2.0 Async Session management (`asyncpg`). This prevents thread blocking during I/O database operations, allowing thousands of simultaneous redirect requests to be handled concurrently.
-
-3. **Real-time Analytics without Bottlenecks**:
-   - Every redirect execution increments the total click counter while logging high-cardinality metadata (`user_agent`, `ip_address`, `timestamp`) into a dedicated `click_logs` table with indexed time parameters for sub-millisecond query aggregation.
-
----
 
 ## 🔮 Future Improvements
 
