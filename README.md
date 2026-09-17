@@ -4,6 +4,9 @@ A high-performance, asynchronous RESTful API built with **Python 3.13**, **FastA
 
 This project implements clean architecture principles, real-time analytics tracking, and automated CI/CD pipelines. It is designed to serve as a showcase project for Backend Developer internships and junior software engineering roles.
 
+🌐 **Live Render Deployment**: [https://url-shortener-api-wbsi.onrender.com](https://url-shortener-api-wbsi.onrender.com)  
+📖 **Interactive OpenAPI Docs**: [https://url-shortener-api-wbsi.onrender.com/docs](https://url-shortener-api-wbsi.onrender.com/docs)
+
 ---
 
 ## 📌 Table of Contents
@@ -98,15 +101,9 @@ url-shortener-api/
 │
 ├── .github/workflows/
 │   └── ci.yml                   # GitHub Actions CI pipeline
-├── api/
-│   └── index.py                 # Vercel serverless entrypoint (exports FastAPI `app`)
-├── scripts/
-│   └── vercel_build.py          # Vercel build hook (installs runtime deps only)
 ├── Dockerfile                   # Production multi-stage Docker build
 ├── docker-compose.yml           # Local multi-container stack (FastAPI + PostgreSQL)
-├── requirements.txt             # All dependencies (runtime + tests)
-├── requirements-vercel.txt      # Slim runtime dependency set for Vercel functions
-├── vercel.json                  # Vercel build & routing configuration
+├── requirements.txt             # Project dependencies
 ├── alembic.ini                  # Alembic migration configuration
 ├── .env.example                 # Configuration template
 └── README.md                    # Project documentation
@@ -117,8 +114,8 @@ url-shortener-api/
 ## 📖 API Documentation
 
 Interactive Swagger documentation is automatically generated and accessible at:
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
+- **Swagger UI**: [https://url-shortener-api-wbsi.onrender.com/docs](https://url-shortener-api-wbsi.onrender.com/docs)
+- **ReDoc**: [https://url-shortener-api-wbsi.onrender.com/redoc](https://url-shortener-api-wbsi.onrender.com/redoc)
 
 ### 1. Create Short URL
 
@@ -137,7 +134,7 @@ Interactive Swagger documentation is automatically generated and accessible at:
 #### Response (`201 Created`)
 ```json
 {
-  "short_url": "http://localhost:8000/my-alias",
+  "short_url": "https://url-shortener-api-wbsi.onrender.com/my-alias",
   "short_code": "my-alias",
   "original_url": "https://example.com/long-page-path",
   "click_count": 0,
@@ -147,7 +144,7 @@ Interactive Swagger documentation is automatically generated and accessible at:
 
 #### cURL Example
 ```bash
-curl -X POST "http://localhost:8000/shorten" \
+curl -X POST "https://url-shortener-api-wbsi.onrender.com/shorten" \
      -H "Content-Type: application/json" \
      -d '{"url": "https://example.com"}'
 ```
@@ -164,7 +161,7 @@ Redirects the user directly to the original target URL and records the click eve
 
 #### cURL Example
 ```bash
-curl -i "http://localhost:8000/abc123"
+curl -i "https://url-shortener-api-wbsi.onrender.com/abc123"
 ```
 
 ---
@@ -216,7 +213,7 @@ curl -i "http://localhost:8000/abc123"
 [
   {
     "id": "c1f7b4e2-9b2f-4c8d-8a1a-3e5f7b8c9d0e",
-    "short_url": "http://localhost:8000/abc123",
+    "short_url": "https://url-shortener-api-wbsi.onrender.com/abc123",
     "short_code": "abc123",
     "original_url": "https://example.com",
     "click_count": 120,
@@ -251,7 +248,7 @@ curl -i "http://localhost:8000/abc123"
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/url-shortener-api.git
+   git clone https://github.com/narendrakp222/URL-Shortener-API.git
    cd url-shortener-api
    ```
 
@@ -364,14 +361,6 @@ Startup table auto-creation is disabled when Vercel is detected (`VERCEL`/`VERCE
 DATABASE_URL="postgresql+asyncpg://user:pass@host/db" alembic upgrade head
 ```
 
-### 5. Deploy
-
-Push to the connected branch; Vercel builds and deploys automatically. Verify with `GET https://your-project.vercel.app/health`, then open `/docs`.
-
-#### Ephemeral SQLite fallback
-
-To run without Postgres, set `DATABASE_URL=sqlite+aiosqlite:////tmp/url_shortener.db`. Vercel's filesystem is read-only except `/tmp`, and `/tmp` is wiped between cold starts, so shortened links will not survive — use Postgres for anything real.
-
 ---
 
 ## ☁️ Deployment Guide (Render + PostgreSQL)
@@ -382,7 +371,7 @@ git init
 git add .
 git commit -m "Initial commit of production URL shortener API"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/url-shortener-api.git
+git remote add origin https://github.com/narendrakp222/URL-Shortener-API.git
 git push -u origin main
 ```
 
@@ -395,13 +384,13 @@ git push -u origin main
 
 ### 3. Deploy Web Service on Render
 1. Click **New +** -> **Web Service**.
-2. Connect your GitHub repository `url-shortener-api`.
+2. Connect your GitHub repository `URL-Shortener-API`.
 3. Configure settings:
-   - **Environment**: `Python` or `Docker` (Select Docker for guaranteed reproducibility).
+   - **Environment**: `Docker` or `Python`.
    - **Start Command** (if Python): `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 4. Add **Environment Variables**:
    - `DATABASE_URL`: paste your Render PostgreSQL connection string.
-   - `BASE_URL`: `https://your-service-name.onrender.com`
+   - `BASE_URL`: `https://url-shortener-api-wbsi.onrender.com`
    - `ENVIRONMENT`: `production`
 5. Click **Create Web Service**.
 
